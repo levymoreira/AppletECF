@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>AppletECF</title>
+        <vendor>jose.lml</vendor>
+        <homepage href=""/>
+        <description>AppletECF</description>
+        <description kind="short">AppletECF</description>
+    <offline-allowed/>
+</information>
+    <update check="background"/>
+    <resources>
+        <j2se java-vm-args="-Djava.security.policy=C:\WorkDir\java.policy" version="1.8+"/>
+        <jar href="AppletECF.jar" main="true"/>
+    <jar href="lib/mongo.jar"/>
+<jar href="lib/jACBrFramework.jar"/>
+<jar href="lib/jna-3.5.1.jar"/>
+<jar href="lib/platform-3.5.1.jar"/>
+</resources>
+    <application-desc main-class="appletecf1.AppletECF1">
+    </application-desc>
+</jnlp>
