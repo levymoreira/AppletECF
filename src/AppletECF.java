@@ -82,7 +82,7 @@ public class AppletECF extends javax.swing.JApplet {
         }
     }
     
-    public String ativar(){
+    public String ativar(String modelo, String porta, String velocidade){
         jTextArea1.setText(jTextArea1.getText() + "\nativar");
        
         String retorno = "ECF Ativado com sucesso!";
@@ -92,9 +92,9 @@ public class AppletECF extends javax.swing.JApplet {
             }
             // jTextArea1.setText(jTextArea1.getText() + "\npolicy :"+System.getProperty("java.security.policy"));   
             ecf = new ACBrECF();  
-            ecf.setModelo(4); //daruma
-            ecf.getDevice().setPorta("COM8");
-            ecf.getDevice().setBaud(115200);            
+            ecf.setModelo(Integer.valueOf(modelo)); //4 - daruma
+            ecf.getDevice().setPorta(porta); //String 
+            ecf.getDevice().setBaud(Integer.valueOf(velocidade)); //115200            
             ecf.ativar();
             ecf.carregaFormasPagamento();
             
@@ -108,7 +108,8 @@ public class AppletECF extends javax.swing.JApplet {
         return retorno;
     }
     
-    public String vendeItem() {
+    public String vendeItem(String codigo, String descricao, String aliquotaICMS, String qtd, String valorUnitario, String descontoPorc, 
+                            String unidade, String tipoDescontoAcrescimo, String descontoAcrescimo, String codDepartamento) {
         jTextArea1.setText(jTextArea1.getText() + "\nvendeItem");
         String retorno = "";
         try {
@@ -118,14 +119,16 @@ public class AppletECF extends javax.swing.JApplet {
                cupomFiscal.put("coo", 1);
                cupomFiscal.put("data_inicio", new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()));
             }
-
-           ecf.vendeItem("0001", "PRODUTO UM", "I", 3, 0.8, 10, "UN", "%", "D", 0);
-           BasicDBObject item = new BasicDBObject();        
-           item.put("codigo", 123);
-           item.put("quantidade", 1);
-           item.put("valor_unitario", 15);
-           itens.add(item);
-
+            
+            ecf.vendeItem(codigo.trim(), descricao.trim().toUpperCase(), aliquotaICMS.trim(), Double.valueOf(qtd), Double.valueOf(valorUnitario), Double.valueOf(descontoPorc),
+                          unidade.trim().toUpperCase(), tipoDescontoAcrescimo.trim(), descontoAcrescimo.trim(), Integer.valueOf(codDepartamento));            
+            
+            BasicDBObject item = new BasicDBObject();        
+            item.put("codigo", 123);
+            item.put("quantidade", 1);
+            item.put("valor_unitario", 15);
+            itens.add(item);
+ 
         } catch (Exception e) {
             retorno = "Erro (vendeItem): " + e.getMessage();
         }
@@ -184,6 +187,9 @@ public class AppletECF extends javax.swing.JApplet {
         
         Boolean ativo = false;
         try {
+            if(ecf==null){
+                return "ECF vazio, ative o ECF!";
+            }
             ativo = ecf.getAtivo();
         } catch (Exception e) {
             return "Erro (verificarStatus):" + e.getMessage();
@@ -283,7 +289,7 @@ public class AppletECF extends javax.swing.JApplet {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Lucida Console", 0, 10)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("Comandos: ");
+        jTextArea1.setText("Comandos do Applet: ");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

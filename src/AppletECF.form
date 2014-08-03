@@ -59,7 +59,7 @@
                   <Font name="Lucida Console" size="10" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="Comandos: "/>
+                <Property name="text" type="java.lang.String" value="Comandos do Applet: "/>
               </Properties>
             </Component>
           </SubComponents>
